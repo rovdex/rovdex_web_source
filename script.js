@@ -14,7 +14,7 @@ const observer = new IntersectionObserver(
 
 document
   .querySelectorAll(
-    ".hero-copy, .hero-stage, .section-heading, .system-grid > *, .capability-grid article, .proof-grid article, .workflow-shell, .workflow-list article, .quote, .footer"
+    ".announcement-bar, .hero-copy, .hero-stage, .trust-strip, .section-heading, .system-grid > *, .capability-grid article, .use-case-grid > *, .proof-grid article, .workflow-shell, .workflow-list article, .faq-grid details, .quote, .footer"
   )
   .forEach((element) => {
     element.classList.add("reveal");

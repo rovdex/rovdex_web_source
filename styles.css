@@ -55,6 +55,53 @@ a {
   padding: 24px 0 40px;
 }
 
+.announcement-bar,
+.trust-strip,
+.use-case-card,
+.playbook-card,
+.faq-grid details {
+  backdrop-filter: blur(24px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.announcement-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  margin: 0 auto 14px;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--muted);
+}
+
+.announcement-bar p {
+  margin: 0;
+}
+
+.announcement-bar a {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.announcement-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(124, 242, 201, 0.12);
+  color: var(--accent);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
 .topbar,
 .hero-panel,
 .system-intro,
@@ -394,9 +441,71 @@ a {
 
 .system-grid,
 .capability-grid,
-.proof-grid {
+.proof-grid,
+.use-case-grid,
+.faq-grid {
   display: grid;
   gap: 18px;
+}
+
+.trust-strip {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  padding: 24px 26px;
+  border-radius: 30px;
+  margin-bottom: 36px;
+}
+
+.trust-copy h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.15;
+}
+
+.trust-rail,
+.trust-stats {
+  display: grid;
+  gap: 12px;
+}
+
+.trust-rail {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-column: 1 / -1;
+}
+
+.trust-rail span,
+.trust-stats article {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.trust-rail span {
+  text-align: center;
+  color: #cfe0ff;
+  font-weight: 700;
+}
+
+.trust-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-column: 1 / -1;
+}
+
+.trust-stats strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.trust-stats p,
+.playbook-card p,
+.faq-grid p,
+.footer-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
 }
 
 .system-grid {
@@ -489,6 +598,67 @@ a {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.use-case-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.use-case-card,
+.playbook-card {
+  border-radius: 30px;
+  padding: 24px;
+}
+
+.use-case-card {
+  min-height: 220px;
+  background:
+    radial-gradient(circle at top right, rgba(125, 166, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+}
+
+.use-case-card.featured {
+  grid-column: span 2;
+  background:
+    radial-gradient(circle at top right, rgba(124, 242, 201, 0.13), transparent 28%),
+    linear-gradient(180deg, rgba(125, 166, 255, 0.1), rgba(255, 255, 255, 0.03));
+}
+
+.use-case-card h3,
+.playbook-card h3,
+.faq-grid summary {
+  margin: 0 0 10px;
+}
+
+.use-case-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.playbook-card {
+  grid-column: span 3;
+  background:
+    linear-gradient(180deg, rgba(17, 31, 52, 0.95) 0%, rgba(9, 20, 36, 0.95) 100%);
+}
+
+.playbook-code {
+  margin: 16px 0 14px;
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(2, 8, 15, 0.62);
+  border: 1px solid rgba(124, 242, 201, 0.14);
+}
+
+.playbook-code div {
+  display: flex;
+  gap: 12px;
+  color: #dbe8fa;
+}
+
+.playbook-code div + div {
+  margin-top: 12px;
+}
+
 .proof-grid article strong {
   display: block;
   margin-bottom: 18px;
@@ -548,6 +718,31 @@ a {
   line-height: 1.7;
 }
 
+.faq-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.faq-grid details {
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.faq-grid summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+}
+
+.faq-grid summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-grid details p {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+}
+
 .footer {
   display: flex;
   align-items: end;
@@ -562,6 +757,11 @@ a {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.footer-note {
+  margin-top: 16px;
+  max-width: 62ch;
 }
 
 .reveal {
@@ -590,8 +790,11 @@ a {
 
 @media (max-width: 960px) {
   .hero,
+  .trust-strip,
   .system-grid,
   .proof-grid,
+  .use-case-grid,
+  .faq-grid,
   .workflow-shell,
   .footer {
     grid-template-columns: 1fr;
@@ -599,7 +802,9 @@ a {
 
   .capability-grid,
   .hero-board,
-  .hero-metrics {
+  .hero-metrics,
+  .trust-rail,
+  .trust-stats {
     grid-template-columns: 1fr;
   }
 
@@ -626,12 +831,24 @@ a {
     grid-column: span 1;
   }
 
+  .use-case-card.featured,
+  .playbook-card {
+    grid-column: span 1;
+  }
+
   .footer {
     align-items: flex-start;
   }
 }
 
 @media (max-width: 640px) {
+  .announcement-bar {
+    width: 100%;
+    border-radius: 24px;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .page-shell {
     width: min(100vw - 20px, 1180px);
     padding-top: 12px;
