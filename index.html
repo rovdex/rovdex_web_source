@@ -19,265 +19,28 @@
   <body>
     <div id="app" v-cloak>
       <div class="page-shell" id="top">
-        <div class="announcement-bar">
-          <span class="announcement-pill">{{ announcement.label }}</span>
-          <p>{{ announcement.text }}</p>
-          <a :href="announcement.href">{{ announcement.action }}</a>
-        </div>
+        <announcement-bar :announcement="content.announcement"></announcement-bar>
 
-        <header class="topbar">
-          <a class="brand" href="#top" @click="closeMenu">
-            <span class="brand-mark"></span>
-            <span>Rovdex</span>
-          </a>
-
-          <button
-            class="menu-toggle"
-            type="button"
-            :aria-expanded="String(isMenuOpen)"
-            aria-controls="site-nav"
-            aria-label="切换导航菜单"
-            @click="toggleMenu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-
-          <div id="site-nav" class="nav-shell" :class="{ open: isMenuOpen }">
-            <nav class="nav">
-              <a
-                v-for="link in navLinks"
-                :key="link.href"
-                :href="link.href"
-                @click="closeMenu"
-              >
-                {{ link.label }}
-              </a>
-            </nav>
-            <a class="button ghost nav-cta" href="#contact" @click="closeMenu">Request Access</a>
-          </div>
-        </header>
+        <site-header
+          :nav-links="content.navLinks"
+          :is-menu-open="isMenuOpen"
+          @toggle-menu="toggleMenu"
+          @close-menu="closeMenu"
+        ></site-header>
 
         <main>
-          <section class="hero">
-            <div class="hero-copy">
-              <p class="eyebrow">{{ hero.eyebrow }}</p>
-              <h1>{{ hero.title }}</h1>
-              <p class="lead">{{ hero.lead }}</p>
-              <div class="hero-metrics">
-                <div v-for="metric in hero.metrics" :key="metric.label">
-                  <strong>{{ metric.value }}</strong>
-                  <span>{{ metric.label }}</span>
-                </div>
-              </div>
-              <div class="hero-actions">
-                <a
-                  v-for="action in hero.actions"
-                  :key="action.href"
-                  class="button"
-                  :class="action.variant"
-                  :href="action.href"
-                >
-                  {{ action.label }}
-                </a>
-              </div>
-            </div>
-
-            <div class="hero-stage">
-              <div class="stage-orbit orbit-one"></div>
-              <div class="stage-orbit orbit-two"></div>
-              <div class="hero-panel">
-                <div class="panel-topline">
-                  <span>{{ heroPanel.topline[0] }}</span>
-                  <span>{{ heroPanel.topline[1] }}</span>
-                </div>
-                <div class="hero-terminal">
-                  <div class="terminal-line" v-for="line in heroPanel.terminal" :key="line.key">
-                    <span><span class="token prompt">&gt;</span>{{ line.key }}</span>
-                    <strong>{{ line.value }}</strong>
-                  </div>
-                </div>
-                <div class="hero-board">
-                  <article
-                    v-for="card in heroPanel.cards"
-                    :key="card.label"
-                    class="board-card"
-                    :class="card.kind"
-                  >
-                    <span class="signal-label">{{ card.label }}</span>
-                    <template v-if="card.kind === 'mini'">
-                      <ul>
-                        <li v-for="item in card.items" :key="item">{{ item }}</li>
-                      </ul>
-                    </template>
-                    <template v-else-if="card.kind === 'pulse'">
-                      <div class="pulse-bars">
-                        <i v-for="bar in 6" :key="bar"></i>
-                      </div>
-                    </template>
-                    <template v-else>
-                      <strong>{{ card.title }}</strong>
-                      <p>{{ card.text }}</p>
-                    </template>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="trust-strip">
-            <div class="trust-copy">
-              <p class="eyebrow">{{ trust.eyebrow }}</p>
-              <h2>{{ trust.title }}</h2>
-            </div>
-            <div class="trust-rail">
-              <span v-for="role in trust.roles" :key="role">{{ role }}</span>
-            </div>
-            <div class="trust-stats">
-              <article v-for="item in trust.stats" :key="item.title">
-                <strong>{{ item.title }}</strong>
-                <p>{{ item.text }}</p>
-              </article>
-            </div>
-          </section>
-
-          <section class="section system" id="system">
-            <div class="section-heading">
-              <p class="eyebrow">{{ system.eyebrow }}</p>
-              <h2>{{ system.title }}</h2>
-            </div>
-            <div class="system-grid">
-              <article class="system-intro">
-                <h3>{{ system.intro.title }}</h3>
-                <p>{{ system.intro.text }}</p>
-              </article>
-              <article class="system-list">
-                <p v-for="point in system.points" :key="point">{{ point }}</p>
-              </article>
-              <article class="system-frame">
-                <div v-for="layer in system.layers" :key="layer.title">
-                  <span>{{ layer.title }}</span>
-                  <p>{{ layer.text }}</p>
-                </div>
-              </article>
-            </div>
-          </section>
-
-          <section class="section capabilities" id="capabilities">
-            <div class="section-heading compact">
-              <p class="eyebrow">{{ capabilities.eyebrow }}</p>
-              <h2>{{ capabilities.title }}</h2>
-            </div>
-            <div class="capability-grid">
-              <article v-for="item in capabilities.items" :key="item.index">
-                <span class="module-index">{{ item.index }}</span>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.text }}</p>
-              </article>
-            </div>
-          </section>
-
-          <section class="section use-cases" id="use-cases">
-            <div class="section-heading compact">
-              <p class="eyebrow">{{ useCases.eyebrow }}</p>
-              <h2>{{ useCases.title }}</h2>
-            </div>
-            <div class="use-case-grid">
-              <article
-                v-for="item in useCases.items"
-                :key="item.index"
-                class="use-case-card"
-                :class="{ featured: item.featured }"
-              >
-                <span class="module-index">{{ item.index }}</span>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.text }}</p>
-              </article>
-              <aside class="playbook-card">
-                <div class="panel-topline">
-                  <span>{{ playbook.topline[0] }}</span>
-                  <span>{{ playbook.topline[1] }}</span>
-                </div>
-                <div class="playbook-code">
-                  <div v-for="step in playbook.steps" :key="step.index">
-                    <span class="token prompt">{{ step.index }}</span>
-                    <span>{{ step.text }}</span>
-                  </div>
-                </div>
-                <p>{{ playbook.note }}</p>
-              </aside>
-            </div>
-          </section>
-
-          <section class="section proof" id="proof">
-            <div class="section-heading compact">
-              <p class="eyebrow">{{ proof.eyebrow }}</p>
-              <h2>{{ proof.title }}</h2>
-            </div>
-            <div class="proof-grid">
-              <article v-for="item in proof.items" :key="item.index">
-                <strong>{{ item.index }}</strong>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.text }}</p>
-              </article>
-            </div>
-          </section>
-
-          <section class="section workflow" id="workflow">
-            <div class="workflow-shell">
-              <div class="workflow-copy">
-                <p class="eyebrow">{{ workflow.eyebrow }}</p>
-                <h2>{{ workflow.title }}</h2>
-              </div>
-              <div class="workflow-list">
-                <article v-for="item in workflow.items" :key="item.index">
-                  <span>{{ item.index }}</span>
-                  <div>
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.text }}</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <section class="section faq" id="faq">
-            <div class="section-heading compact">
-              <p class="eyebrow">{{ faq.eyebrow }}</p>
-              <h2>{{ faq.title }}</h2>
-            </div>
-            <div class="faq-grid">
-              <details v-for="item in faq.items" :key="item.question">
-                <summary>{{ item.question }}</summary>
-                <p>{{ item.answer }}</p>
-              </details>
-            </div>
-          </section>
-
-          <section class="section quote">
-            <p>{{ quote }}</p>
-          </section>
+          <hero-section :hero="content.hero" :hero-panel="content.heroPanel"></hero-section>
+          <trust-strip-section :trust="content.trust"></trust-strip-section>
+          <system-section :system="content.system"></system-section>
+          <capabilities-section :capabilities="content.capabilities"></capabilities-section>
+          <use-cases-section :use-cases="content.useCases" :playbook="content.playbook"></use-cases-section>
+          <proof-section :proof="content.proof"></proof-section>
+          <workflow-section :workflow="content.workflow"></workflow-section>
+          <faq-section :faq="content.faq"></faq-section>
+          <quote-section :quote="content.quote"></quote-section>
         </main>
 
-        <footer class="footer" id="contact">
-          <div>
-            <p class="eyebrow">{{ footer.eyebrow }}</p>
-            <h2>{{ footer.title }}</h2>
-            <p class="footer-note">{{ footer.note }}</p>
-          </div>
-          <div class="footer-actions">
-            <a
-              v-for="action in footer.actions"
-              :key="action.href"
-              class="button"
-              :class="action.variant"
-              :href="action.href"
-            >
-              {{ action.label }}
-            </a>
-          </div>
-        </footer>
+        <site-footer :footer="content.footer"></site-footer>
       </div>
     </div>
 
