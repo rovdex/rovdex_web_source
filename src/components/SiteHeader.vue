@@ -4,13 +4,25 @@ defineProps({
     type: Array,
     required: true,
   },
+  currentLocale: {
+    type: String,
+    required: true,
+  },
+  menuAriaLabel: {
+    type: String,
+    required: true,
+  },
+  ctaLabel: {
+    type: String,
+    required: true,
+  },
   isMenuOpen: {
     type: Boolean,
     required: true,
   },
 });
 
-defineEmits(["toggle-menu", "close-menu"]);
+defineEmits(["toggle-menu", "close-menu", "switch-language"]);
 </script>
 
 <template>
@@ -25,7 +37,7 @@ defineEmits(["toggle-menu", "close-menu"]);
       type="button"
       :aria-expanded="String(isMenuOpen)"
       aria-controls="site-nav"
-      aria-label="切换导航菜单"
+      :aria-label="menuAriaLabel"
       @click="$emit('toggle-menu')"
     >
       <span></span>
@@ -44,7 +56,25 @@ defineEmits(["toggle-menu", "close-menu"]);
           {{ link.label }}
         </a>
       </nav>
-      <a class="button ghost nav-cta" href="#contact" @click="$emit('close-menu')">Request Access</a>
+      <div class="language-switch" role="group" aria-label="Language switch">
+        <button
+          class="language-button"
+          type="button"
+          :class="{ active: currentLocale === 'zh-CN' }"
+          @click="$emit('switch-language', 'zh-CN')"
+        >
+          中
+        </button>
+        <button
+          class="language-button"
+          type="button"
+          :class="{ active: currentLocale === 'en' }"
+          @click="$emit('switch-language', 'en')"
+        >
+          EN
+        </button>
+      </div>
+      <a class="button ghost nav-cta" href="#contact" @click="$emit('close-menu')">{{ ctaLabel }}</a>
     </div>
   </header>
 </template>

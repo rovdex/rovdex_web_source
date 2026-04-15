@@ -10,23 +10,26 @@ const aniClasses = [
 
 export const scrollAnimate = {
     init: () => {
+        const sr = ScrollReveal();
         for (let aniClass of aniClasses) {
             // 需要添加动画的节点
             const domClass = `.${aniClass}`;
             const action = aniClass.split("-")[1];
 
-            ScrollReveal().reveal(domClass, {
+            // 重新注册前先清理旧实例，避免切语言后位移计算叠加
+            sr.clean(domClass);
+            sr.reveal(domClass, {
                 // 动画的时长
                 duration: 600,
                 // 延迟时间
                 delay: 100,
-                origin: action == "rotate" ? "left" : action,
+                origin: action === "rotate" ? "left" : action,
                 distance: "90px",
                 easing: "ease-in-out",
                 rotate: {
                     x: 0,
                     y: 0,
-                    z: action == "rotate" ? 90 : 0,
+                    z: action === "rotate" ? 90 : 0,
                 },
                 scale: 1,
                 // 回滚的时候是否再次触发动画
@@ -35,5 +38,6 @@ export const scrollAnimate = {
                 mobile: true,
             });
         }
+        sr.sync();
     },
 };
