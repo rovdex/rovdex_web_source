@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <section class="hero">
-    <div class="hero-copy">
+    <div class="hero-copy ani-left">
       <p class="eyebrow">{{ hero.eyebrow }}</p>
       <h1>{{ hero.title }}</h1>
       <p class="lead">{{ hero.lead }}</p>
@@ -36,7 +36,7 @@ defineProps({
       </div>
     </div>
 
-    <div class="hero-stage">
+    <div class="hero-stage ani-right">
       <div class="stage-orbit orbit-one"></div>
       <div class="stage-orbit orbit-two"></div>
       <div class="hero-panel">

@@ -1,5 +1,6 @@
 <script setup>
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { scrollAnimate } from "./utils/scrollAnimate";
 import AnnouncementBar from "./components/AnnouncementBar.vue";
 import SiteHeader from "./components/SiteHeader.vue";
 import HeroSection from "./components/HeroSection.vue";
@@ -31,38 +32,11 @@ function handleResize() {
   }
 }
 
-function setupReveal() {
-  if (observer) {
-    observer.disconnect();
-  }
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer?.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.16 }
-  );
-
-  document
-    .querySelectorAll(
-      ".announcement-bar, .hero-copy, .hero-stage, .trust-strip, .section-heading, .system-grid > *, .capability-grid article, .use-case-grid > *, .proof-grid article, .workflow-shell, .workflow-list article, .faq-grid details, .quote, .footer"
-    )
-    .forEach((element) => {
-      element.classList.add("reveal");
-      observer?.observe(element);
-    });
-}
-
 onMounted(async () => {
+  scrollAnimate.init();
   window.addEventListener("resize", handleResize, { passive: true });
   handleResize();
   await nextTick();
-  setupReveal();
 });
 
 onBeforeUnmount(() => {
@@ -73,7 +47,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="page-shell" id="top">
-    <AnnouncementBar :announcement="siteContent.announcement" />
+    <AnnouncementBar class="ani-top" :announcement="siteContent.announcement" />
     <SiteHeader
       :nav-links="siteContent.navLinks"
       :is-menu-open="isMenuOpen"
@@ -83,7 +57,7 @@ onBeforeUnmount(() => {
 
     <main>
       <HeroSection :hero="siteContent.hero" :hero-panel="siteContent.heroPanel" />
-      <TrustStripSection :trust="siteContent.trust" />
+      <TrustStripSection class="ani-bottom" :trust="siteContent.trust" />
       <SystemSection :system="siteContent.system" />
       <CapabilitiesSection :capabilities="siteContent.capabilities" />
       <UseCasesSection :use-cases="siteContent.useCases" :playbook="siteContent.playbook" />

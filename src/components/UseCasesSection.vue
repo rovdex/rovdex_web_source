@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <section class="section use-cases" id="use-cases">
-    <div class="section-heading compact">
+    <div class="section-heading compact ani-left">
       <p class="eyebrow">{{ useCases.eyebrow }}</p>
       <h2>{{ useCases.title }}</h2>
     </div>
@@ -21,14 +21,14 @@ defineProps({
       <article
         v-for="item in useCases.items"
         :key="item.index"
-        class="use-case-card"
+        class="use-case-card ani-bottom"
         :class="{ featured: item.featured }"
       >
         <span class="module-index">{{ item.index }}</span>
         <h3>{{ item.title }}</h3>
         <p>{{ item.text }}</p>
       </article>
-      <aside class="playbook-card">
+      <aside class="playbook-card ani-bottom">
         <div class="panel-topline">
           <span>{{ playbook.topline[0] }}</span>
           <span>{{ playbook.topline[1] }}</span>

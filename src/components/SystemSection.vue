@@ -9,11 +9,11 @@ defineProps({
 
 <template>
   <section class="section system" id="system">
-    <div class="section-heading">
+    <div class="section-heading ani-left">
       <p class="eyebrow">{{ system.eyebrow }}</p>
       <h2>{{ system.title }}</h2>
     </div>
-    <div class="system-grid">
+    <div class="system-grid ani-bottom">
       <article class="system-intro">
         <h3>{{ system.intro.title }}</h3>
         <p>{{ system.intro.text }}</p>

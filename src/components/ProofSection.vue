@@ -9,11 +9,11 @@ defineProps({
 
 <template>
   <section class="section proof" id="proof">
-    <div class="section-heading compact">
+    <div class="section-heading compact ani-left">
       <p class="eyebrow">{{ proof.eyebrow }}</p>
       <h2>{{ proof.title }}</h2>
     </div>
-    <div class="proof-grid">
+    <div class="proof-grid ani-bottom">
       <article v-for="item in proof.items" :key="item.index">
         <strong>{{ item.index }}</strong>
         <h3>{{ item.title }}</h3>

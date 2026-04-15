@@ -9,12 +9,12 @@ defineProps({
 
 <template>
   <footer class="footer" id="contact">
-    <div>
+    <div class="ani-left">
       <p class="eyebrow">{{ footer.eyebrow }}</p>
       <h2>{{ footer.title }}</h2>
       <p class="footer-note">{{ footer.note }}</p>
     </div>
-    <div class="footer-actions">
+    <div class="footer-actions ani-right">
       <a
         v-for="action in footer.actions"
         :key="action.href"

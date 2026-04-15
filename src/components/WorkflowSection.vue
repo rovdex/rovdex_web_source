@@ -10,12 +10,12 @@ defineProps({
 <template>
   <section class="section workflow" id="workflow">
     <div class="workflow-shell">
-      <div class="workflow-copy">
+      <div class="workflow-copy ani-left">
         <p class="eyebrow">{{ workflow.eyebrow }}</p>
         <h2>{{ workflow.title }}</h2>
       </div>
       <div class="workflow-list">
-        <article v-for="item in workflow.items" :key="item.index">
+        <article class="ani-right" v-for="item in workflow.items" :key="item.index">
           <span>{{ item.index }}</span>
           <div>
             <h3>{{ item.title }}</h3>

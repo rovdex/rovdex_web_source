@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="section quote">
+  <section class="section quote ani-bottom">
     <p>{{ quote }}</p>
   </section>
 </template>
