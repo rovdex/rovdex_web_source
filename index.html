@@ -17,337 +17,271 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page-shell" id="top">
-      <div class="announcement-bar">
-        <span class="announcement-pill">New</span>
-        <p>Rovdex 正在为增长、运营与产品团队开放设计合作席位。</p>
-        <a href="#contact">加入候选名单</a>
-      </div>
+    <div id="app" v-cloak>
+      <div class="page-shell" id="top">
+        <div class="announcement-bar">
+          <span class="announcement-pill">{{ announcement.label }}</span>
+          <p>{{ announcement.text }}</p>
+          <a :href="announcement.href">{{ announcement.action }}</a>
+        </div>
 
-      <header class="topbar">
-        <a class="brand" href="#top">
-          <span class="brand-mark"></span>
-          <span>Rovdex</span>
-        </a>
-        <nav class="nav">
-          <a href="#system">系统概览</a>
-          <a href="#capabilities">能力模块</a>
-          <a href="#use-cases">典型场景</a>
-          <a href="#proof">结果证据</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">联系</a>
-        </nav>
-        <a class="button ghost" href="#contact">Request Access</a>
-      </header>
+        <header class="topbar">
+          <a class="brand" href="#top" @click="closeMenu">
+            <span class="brand-mark"></span>
+            <span>Rovdex</span>
+          </a>
 
-      <main>
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">Strategic Operating System</p>
-            <h1>让业务决策看起来像一块被实时驱动的作战屏。</h1>
-            <p class="lead">
-              Rovdex 把指标波动、团队动作、机会判断与执行状态压缩进同一套操作界面。
-              它不是又一个 BI 面板，也不是任务系统的叠加层，而是一种面向增长团队的实时决策基础设施。
-            </p>
-            <div class="hero-metrics">
-              <div>
-                <strong>08s</strong>
-                <span>从异常发现到进入上下文</span>
-              </div>
-              <div>
-                <strong>3x</strong>
-                <span>跨团队协作效率提升</span>
-              </div>
-              <div>
-                <strong>100%</strong>
-                <span>关键动作可追踪</span>
-              </div>
-            </div>
-            <div class="hero-actions">
-              <a class="button primary" href="#system">查看系统概览</a>
-              <a class="button secondary" href="#proof">查看价值证明</a>
-            </div>
+          <button
+            class="menu-toggle"
+            type="button"
+            :aria-expanded="String(isMenuOpen)"
+            aria-controls="site-nav"
+            aria-label="切换导航菜单"
+            @click="toggleMenu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <div id="site-nav" class="nav-shell" :class="{ open: isMenuOpen }">
+            <nav class="nav">
+              <a
+                v-for="link in navLinks"
+                :key="link.href"
+                :href="link.href"
+                @click="closeMenu"
+              >
+                {{ link.label }}
+              </a>
+            </nav>
+            <a class="button ghost nav-cta" href="#contact" @click="closeMenu">Request Access</a>
           </div>
-          <div class="hero-stage">
-            <div class="stage-orbit orbit-one"></div>
-            <div class="stage-orbit orbit-two"></div>
-            <div class="hero-panel">
-              <div class="panel-topline">
-                <span>Live Strategy Feed</span>
-                <span>RDX-CORE</span>
+        </header>
+
+        <main>
+          <section class="hero">
+            <div class="hero-copy">
+              <p class="eyebrow">{{ hero.eyebrow }}</p>
+              <h1>{{ hero.title }}</h1>
+              <p class="lead">{{ hero.lead }}</p>
+              <div class="hero-metrics">
+                <div v-for="metric in hero.metrics" :key="metric.label">
+                  <strong>{{ metric.value }}</strong>
+                  <span>{{ metric.label }}</span>
+                </div>
               </div>
-              <div class="hero-terminal">
-                <div class="terminal-line"><span class="token prompt">></span><span>market.volatility</span><strong>HIGH</strong></div>
-                <div class="terminal-line"><span class="token prompt">></span><span>campaign.signal</span><strong>+18.4%</strong></div>
-                <div class="terminal-line"><span class="token prompt">></span><span>team.response</span><strong>READY</strong></div>
+              <div class="hero-actions">
+                <a
+                  v-for="action in hero.actions"
+                  :key="action.href"
+                  class="button"
+                  :class="action.variant"
+                  :href="action.href"
+                >
+                  {{ action.label }}
+                </a>
               </div>
-              <div class="hero-board">
-                <article class="board-card spotlight">
-                  <span class="signal-label">North Star</span>
-                  <strong>Expansion Velocity</strong>
-                  <p>把增长策略、执行优先级与组织反馈同步在同一张运营地图里。</p>
-                </article>
-                <article class="board-card stat">
-                  <span class="signal-label">Signal Stack</span>
-                  <strong>42</strong>
-                  <p>实时上下文维度正在参与判断</p>
-                </article>
-                <article class="board-card mini">
-                  <span class="signal-label">Ops Queue</span>
-                  <ul>
-                    <li>Pricing shift review</li>
-                    <li>Retention risk response</li>
-                    <li>Launch readiness alignment</li>
-                  </ul>
-                </article>
-                <article class="board-card pulse">
-                  <span class="signal-label">Decision Pulse</span>
-                  <div class="pulse-bars">
-                    <i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+
+            <div class="hero-stage">
+              <div class="stage-orbit orbit-one"></div>
+              <div class="stage-orbit orbit-two"></div>
+              <div class="hero-panel">
+                <div class="panel-topline">
+                  <span>{{ heroPanel.topline[0] }}</span>
+                  <span>{{ heroPanel.topline[1] }}</span>
+                </div>
+                <div class="hero-terminal">
+                  <div class="terminal-line" v-for="line in heroPanel.terminal" :key="line.key">
+                    <span><span class="token prompt">&gt;</span>{{ line.key }}</span>
+                    <strong>{{ line.value }}</strong>
+                  </div>
+                </div>
+                <div class="hero-board">
+                  <article
+                    v-for="card in heroPanel.cards"
+                    :key="card.label"
+                    class="board-card"
+                    :class="card.kind"
+                  >
+                    <span class="signal-label">{{ card.label }}</span>
+                    <template v-if="card.kind === 'mini'">
+                      <ul>
+                        <li v-for="item in card.items" :key="item">{{ item }}</li>
+                      </ul>
+                    </template>
+                    <template v-else-if="card.kind === 'pulse'">
+                      <div class="pulse-bars">
+                        <i v-for="bar in 6" :key="bar"></i>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <strong>{{ card.title }}</strong>
+                      <p>{{ card.text }}</p>
+                    </template>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="trust-strip">
+            <div class="trust-copy">
+              <p class="eyebrow">{{ trust.eyebrow }}</p>
+              <h2>{{ trust.title }}</h2>
+            </div>
+            <div class="trust-rail">
+              <span v-for="role in trust.roles" :key="role">{{ role }}</span>
+            </div>
+            <div class="trust-stats">
+              <article v-for="item in trust.stats" :key="item.title">
+                <strong>{{ item.title }}</strong>
+                <p>{{ item.text }}</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section system" id="system">
+            <div class="section-heading">
+              <p class="eyebrow">{{ system.eyebrow }}</p>
+              <h2>{{ system.title }}</h2>
+            </div>
+            <div class="system-grid">
+              <article class="system-intro">
+                <h3>{{ system.intro.title }}</h3>
+                <p>{{ system.intro.text }}</p>
+              </article>
+              <article class="system-list">
+                <p v-for="point in system.points" :key="point">{{ point }}</p>
+              </article>
+              <article class="system-frame">
+                <div v-for="layer in system.layers" :key="layer.title">
+                  <span>{{ layer.title }}</span>
+                  <p>{{ layer.text }}</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section capabilities" id="capabilities">
+            <div class="section-heading compact">
+              <p class="eyebrow">{{ capabilities.eyebrow }}</p>
+              <h2>{{ capabilities.title }}</h2>
+            </div>
+            <div class="capability-grid">
+              <article v-for="item in capabilities.items" :key="item.index">
+                <span class="module-index">{{ item.index }}</span>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section use-cases" id="use-cases">
+            <div class="section-heading compact">
+              <p class="eyebrow">{{ useCases.eyebrow }}</p>
+              <h2>{{ useCases.title }}</h2>
+            </div>
+            <div class="use-case-grid">
+              <article
+                v-for="item in useCases.items"
+                :key="item.index"
+                class="use-case-card"
+                :class="{ featured: item.featured }"
+              >
+                <span class="module-index">{{ item.index }}</span>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+              </article>
+              <aside class="playbook-card">
+                <div class="panel-topline">
+                  <span>{{ playbook.topline[0] }}</span>
+                  <span>{{ playbook.topline[1] }}</span>
+                </div>
+                <div class="playbook-code">
+                  <div v-for="step in playbook.steps" :key="step.index">
+                    <span class="token prompt">{{ step.index }}</span>
+                    <span>{{ step.text }}</span>
+                  </div>
+                </div>
+                <p>{{ playbook.note }}</p>
+              </aside>
+            </div>
+          </section>
+
+          <section class="section proof" id="proof">
+            <div class="section-heading compact">
+              <p class="eyebrow">{{ proof.eyebrow }}</p>
+              <h2>{{ proof.title }}</h2>
+            </div>
+            <div class="proof-grid">
+              <article v-for="item in proof.items" :key="item.index">
+                <strong>{{ item.index }}</strong>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section workflow" id="workflow">
+            <div class="workflow-shell">
+              <div class="workflow-copy">
+                <p class="eyebrow">{{ workflow.eyebrow }}</p>
+                <h2>{{ workflow.title }}</h2>
+              </div>
+              <div class="workflow-list">
+                <article v-for="item in workflow.items" :key="item.index">
+                  <span>{{ item.index }}</span>
+                  <div>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.text }}</p>
                   </div>
                 </article>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="trust-strip reveal-shell">
-          <div class="trust-copy">
-            <p class="eyebrow">Built for Real Operators</p>
-            <h2>不是给某一个部门看的屏，而是给整个业务系统使用的控制面。</h2>
-          </div>
-          <div class="trust-rail">
-            <span>Growth</span>
-            <span>Operations</span>
-            <span>Product</span>
-            <span>Strategy</span>
-            <span>Leadership</span>
-          </div>
-          <div class="trust-stats">
-            <article>
-              <strong>Single Context</strong>
-              <p>指标、反馈、任务与责任边界被统一组织。</p>
-            </article>
-            <article>
-              <strong>Fast Alignment</strong>
-              <p>减少跨团队来回解释和反复同步的时间损耗。</p>
-            </article>
-            <article>
-              <strong>Operational Memory</strong>
-              <p>每次决策都能留下可复用的组织经验。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section system" id="system">
-          <div class="section-heading">
-            <p class="eyebrow">System Overview</p>
-            <h2>不是展示结果，而是直接介入业务判断、优先级排序和组织动作。</h2>
-          </div>
-          <div class="system-grid">
-            <article class="system-intro">
-              <h3>Rovdex 让一线信号和高层判断处在同一界面。</h3>
-              <p>
-                当市场变化、产品反馈、用户行为和团队动作同时发生时，最难的不是看到数据，而是把这些变化转成可以立刻推进的决策。
-                Rovdex 通过统一上下文层、策略层和执行层，把“发现问题”和“启动行动”之间的断点抹平。
-              </p>
-            </article>
-            <article class="system-list">
-              <p>统一摄取业务信号、经营指标与执行状态</p>
-              <p>针对异常、机会和延迟形成明确优先级</p>
-              <p>用可追踪责任链推动多团队协作</p>
-              <p>把每次行动结果重新写回策略系统</p>
-            </article>
-            <article class="system-frame">
-              <div>
-                <span>Context Layer</span>
-                <p>指标、反馈、事件、依赖关系</p>
-              </div>
-              <div>
-                <span>Decision Layer</span>
-                <p>判断依据、优先级、负责人、时限</p>
-              </div>
-              <div>
-                <span>Execution Layer</span>
-                <p>推进动作、结果回写、复盘沉淀</p>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="section capabilities" id="capabilities">
-          <div class="section-heading compact">
-            <p class="eyebrow">Core Modules</p>
-            <h2>围绕高频业务推进设计的能力模块</h2>
-          </div>
-          <div class="capability-grid">
-            <article>
-              <span class="module-index">01</span>
-              <h3>Signal Engine</h3>
-              <p>把增长波动、异常事件和团队反馈转为高优先级信号，避免真正重要的问题被淹没。</p>
-            </article>
-            <article>
-              <span class="module-index">02</span>
-              <h3>Decision Room</h3>
-              <p>让管理者、产品与运营共享同一判断上下文，在统一界面完成取舍、定责与推进。</p>
-            </article>
-            <article>
-              <span class="module-index">03</span>
-              <h3>Execution Graph</h3>
-              <p>把动作拆解到团队和节点，实时显示阻塞、依赖与推进状态，减少执行失真。</p>
-            </article>
-            <article>
-              <span class="module-index">04</span>
-              <h3>Learning Loop</h3>
-              <p>所有行动结果都会沉淀为下一轮策略参考，让组织真正具备持续进化能力。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section use-cases" id="use-cases">
-          <div class="section-heading compact">
-            <p class="eyebrow">Use Cases</p>
-            <h2>三类最容易失控的业务场景，Rovdex 会把它们重新变得可管理。</h2>
-          </div>
-          <div class="use-case-grid">
-            <article class="use-case-card featured">
-              <span class="module-index">Scenario A</span>
-              <h3>增长波动处理</h3>
-              <p>当转化率、留存或投放效率出现异常时，团队可以立刻看到相关信号、责任方和正在进行的补救动作。</p>
-            </article>
-            <article class="use-case-card">
-              <span class="module-index">Scenario B</span>
-              <h3>跨部门发布协同</h3>
-              <p>发布前后的产品、市场、运营与客户成功不再各自掌握一部分状态，而是在同一面板内协同推进。</p>
-            </article>
-            <article class="use-case-card">
-              <span class="module-index">Scenario C</span>
-              <h3>策略复盘与学习</h3>
-              <p>每一次动作都附带背景、判断和结果，复盘时看到的是完整链路，而不是零散结论。</p>
-            </article>
-            <aside class="playbook-card">
-              <div class="panel-topline">
-                <span>Activation Path</span>
-                <span>RDX-PLAYBOOK</span>
-              </div>
-              <div class="playbook-code">
-                <div><span class="token prompt">1.</span><span>Map signals into one operational graph</span></div>
-                <div><span class="token prompt">2.</span><span>Rank decisions by urgency and impact</span></div>
-                <div><span class="token prompt">3.</span><span>Turn plans into accountable execution</span></div>
-              </div>
-              <p>这部分借鉴的是 opencode 那种“低成本理解产品”的方式，但这里表达的是 Rovdex 的业务落地路径，而不是安装命令或开发者工具体验。</p>
-            </aside>
-          </div>
-        </section>
-
-        <section class="section proof" id="proof">
-          <div class="section-heading compact">
-            <p class="eyebrow">Proof of Value</p>
-            <h2>高级感不该只停留在视觉层，它应该来自结果上的确定性。</h2>
-          </div>
-          <div class="proof-grid">
-            <article>
-              <strong>01</strong>
-              <h3>更快进入真实上下文</h3>
-              <p>团队不再需要在报表、聊天记录、任务系统之间来回切换找证据。</p>
-            </article>
-            <article>
-              <strong>02</strong>
-              <h3>更少的对齐成本</h3>
-              <p>每个关键动作都附带原因、优先级和责任边界，减少重复沟通与模糊决策。</p>
-            </article>
-            <article>
-              <strong>03</strong>
-              <h3>更强的组织记忆</h3>
-              <p>行动结果被结构化记录，不再随着项目结束而消失，下一次决策可以直接复用。</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section workflow" id="workflow">
-          <div class="workflow-shell">
-            <div class="workflow-copy">
-              <p class="eyebrow">Operational Sequence</p>
-              <h2>一条更像控制台而不是表格的业务工作流。</h2>
+          <section class="section faq" id="faq">
+            <div class="section-heading compact">
+              <p class="eyebrow">{{ faq.eyebrow }}</p>
+              <h2>{{ faq.title }}</h2>
             </div>
-            <div class="workflow-list">
-              <article>
-                <span>01</span>
-                <div>
-                  <h3>Observe</h3>
-                  <p>持续吸收市场、用户、产品与执行信号。</p>
-                </div>
-              </article>
-              <article>
-                <span>02</span>
-                <div>
-                  <h3>Decode</h3>
-                  <p>在上下文中解释变化，不被孤立指标误导。</p>
-                </div>
-              </article>
-              <article>
-                <span>03</span>
-                <div>
-                  <h3>Command</h3>
-                  <p>形成明确动作、顺序与责任链。</p>
-                </div>
-              </article>
-              <article>
-                <span>04</span>
-                <div>
-                  <h3>Learn</h3>
-                  <p>复盘效果并将经验回写成新的组织能力。</p>
-                </div>
-              </article>
+            <div class="faq-grid">
+              <details v-for="item in faq.items" :key="item.question">
+                <summary>{{ item.question }}</summary>
+                <p>{{ item.answer }}</p>
+              </details>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="section faq" id="faq">
-          <div class="section-heading compact">
-            <p class="eyebrow">FAQ</p>
-            <h2>让访客在离开首页之前，把最关键的疑问先消化掉。</h2>
-          </div>
-          <div class="faq-grid">
-            <details>
-              <summary>Rovdex 和 BI 看板有什么本质区别？</summary>
-              <p>BI 看板更擅长展示结果，Rovdex 更强调把结果、原因、责任链和动作推进放进同一工作界面里。</p>
-            </details>
-            <details>
-              <summary>它适合哪些团队使用？</summary>
-              <p>适合需要高频判断和跨团队协同的增长、产品、运营、商业化和管理团队。</p>
-            </details>
-            <details>
-              <summary>Rovdex 是替代现有工具，还是叠加在它们之上？</summary>
-              <p>更接近一个上层操作界面。它负责汇总信号、统一语境和推动决策，底层依然可以连接已有系统。</p>
-            </details>
-            <details>
-              <summary>上线价值主要体现在哪里？</summary>
-              <p>体现在更快识别真正重要的问题、更少的协同摩擦，以及把决策结果沉淀为组织能力。</p>
-            </details>
-          </div>
-        </section>
+          <section class="section quote">
+            <p>{{ quote }}</p>
+          </section>
+        </main>
 
-        <section class="section quote">
-          <p>
-            “Rovdex 的美感不来自装饰，而来自信息被组织得足够清楚，团队因此能更快做出正确动作。”
-          </p>
-        </section>
-      </main>
-
-      <footer class="footer" id="contact">
-        <div>
-          <p class="eyebrow">Access Rovdex</p>
-          <h2>如果你要把这套气质继续往正式品牌官网推进，下一步应该补真实案例、产品截图和转化入口。</h2>
-          <p class="footer-note">现在这版已经具备更完整的产品官网节奏：首屏、信任层、场景层、能力层、FAQ 和收口 CTA。</p>
-        </div>
-        <div class="footer-actions">
-          <a class="button primary" href="#top">Back to Top</a>
-          <a class="button secondary" href="#system">Explore System</a>
-        </div>
-      </footer>
+        <footer class="footer" id="contact">
+          <div>
+            <p class="eyebrow">{{ footer.eyebrow }}</p>
+            <h2>{{ footer.title }}</h2>
+            <p class="footer-note">{{ footer.note }}</p>
+          </div>
+          <div class="footer-actions">
+            <a
+              v-for="action in footer.actions"
+              :key="action.href"
+              class="button"
+              :class="action.variant"
+              :href="action.href"
+            >
+              {{ action.label }}
+            </a>
+          </div>
+        </footer>
+      </div>
     </div>
 
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
